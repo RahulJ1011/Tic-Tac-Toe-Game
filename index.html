@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe</title>
+<link rel="stylesheet" href="./style.css" >
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+<div class="container">
+   
+    <div id="0" class="box" onclick="handleClick(0)"></div>
+    <div id="1" class="box" onclick="handleClick(1)"></div>
+    <div id="2" class="box" onclick="handleClick(2)"></div>
+    <div id="3" class="box" onclick="handleClick(3)"></div>
+    <div id="4" class="box" onclick="handleClick(4)"></div>
+    <div id="5" class="box" onclick="handleClick(5)"></div>
+    <div id="6" class="box" onclick="handleClick(6)"></div>
+    <div id="7" class="box" onclick="handleClick(7)"></div>
+    <div id="8" class="box" onclick="handleClick(8)"></div>
+    
+    
+</div>
+<p id="result"></p>
+<button onclick="resetGame()">Reset Game</button>
+<script src="script.js"></script>
+<script>
+    let currentPlayer = 'X';
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let gameOver = false;
+
+    function handleClick(cellIndex) {
+        if (!gameOver && board[cellIndex] === '') {
+            board[cellIndex] = currentPlayer;
+            document.getElementById(`cell-${cellIndex}`).innerText = currentPlayer;
+            checkWinner();
+            togglePlayer();
+        }
+    }
+
+    function checkWinner() {
+        const winConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+        for (let condition of winConditions) {
+            const [a, b, c] = condition;
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                document.getElementById('result').innerText = `${currentPlayer} wins!`;
+                gameOver = true;
+                return;
+            }
+        }
+        if (!board.includes('')) {
+            document.getElementById('result').innerText = "It's a draw!";
+            gameOver = true;
+            return;
+        }
+    }
+
+    function togglePlayer() {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    function resetGame() {
+        currentPlayer = 'X';
+        board = ['', '', '', '', '', '', '', '', ''];
+        gameOver = false;
+        document.getElementById('result').innerText = '';
+        document.querySelectorAll('.board td').forEach(cell => cell.innerText = '');
+    }
+</script>
+
+</body>
+</html>
